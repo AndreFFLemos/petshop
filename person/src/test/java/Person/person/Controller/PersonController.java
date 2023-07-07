@@ -25,8 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/person")
-public class PessoaController {
+@RequestMapping("/api")
+public class PersonController {
     @Autowired
     private PersonService ps;
 
@@ -36,7 +36,7 @@ public class PessoaController {
     }
     
 
-    @PostMapping
+    @PostMapping(value = "/person")
     public ResponseEntity<PersonResponse> create(@RequestBody @Valid PersonResponse person) {
         ModelMapper mapper = new ModelMapper();
         PersonDto dto = mapper.map(person, PersonDto.class);
@@ -44,7 +44,7 @@ public class PessoaController {
         return new ResponseEntity<>(mapper.map(dto, PersonResponse.class), HttpStatus.CREATED);
     }
     
-    @GetMapping
+    @GetMapping(value = "/persons")
     public ResponseEntity<List<PersonResponse>> findAll() {
         List<PersonDto> dtos = ps.findAll();
 
@@ -60,7 +60,7 @@ public class PessoaController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
     
-    @GetMapping(value="/{id}")
+    @GetMapping(value="/person/{id}")
     public ResponseEntity<PersonResponse> findById(@PathVariable int id) {
         Optional<PersonDto> pessoa = ps.findById(id);
 
@@ -74,7 +74,7 @@ public class PessoaController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(value="/{id}")
+    @PutMapping(value="/person/{id}")
     public ResponseEntity<PersonResponse> update(@PathVariable int id,
         @Valid @RequestBody Person person) {
         ModelMapper mapper = new ModelMapper();
@@ -84,7 +84,7 @@ public class PessoaController {
         return new ResponseEntity<>(mapper.map(dto, PersonResponse.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value="/person/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         ps.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

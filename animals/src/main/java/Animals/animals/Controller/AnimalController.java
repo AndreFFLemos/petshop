@@ -25,17 +25,17 @@ import Animals.animals.Model.AnimalInclusion;
 import Animals.animals.Model.AnimalResponse;
 
 @RestController
-@RequestMapping("/api/animals")
+@RequestMapping("/api")
 public class AnimalController {
     @Autowired
     private AnimalService as;
 
-    @GetMapping(value="/status")
+    @GetMapping(value = "/status")
     public String statusService(@Value("${local.server.port}") String port) {
-        return String.format("Active service executing at port ", port);
-    }    
+        return String.format("Active service executing at port %s", port);
+    }
 
-    @PostMapping
+    @PostMapping(value = "/animal")
     public ResponseEntity<AnimalResponse> createAnimal(@RequestBody @Valid AnimalInclusion Animal) {
         ModelMapper mapper = new ModelMapper();
         AnimalDto dto = mapper.map(Animal, AnimalDto.class);
@@ -43,7 +43,7 @@ public class AnimalController {
         return new ResponseEntity<>(mapper.map(dto, AnimalResponse.class), HttpStatus.CREATED);
     }
     
-    @GetMapping
+    @GetMapping(value = "/animals")
     public ResponseEntity<List<AnimalResponse>> findAll() {
         List<AnimalDto> dtos = as.findAll();
 
@@ -75,7 +75,7 @@ public class AnimalController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
     
-    @GetMapping(value="/{id}")
+    @GetMapping(value="/animal/{id}")
     public ResponseEntity<AnimalResponse> findById(@PathVariable int id) {
         Optional<AnimalDto> Animal = as.findById(id);
 
@@ -89,7 +89,7 @@ public class AnimalController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping(value="/{id}")
+    @PutMapping(value="/animal/{id}")
     public ResponseEntity<AnimalResponse> update(@PathVariable int id,
                                                           @Valid @RequestBody AnimalAlteration Animal) {
         ModelMapper mapper = new ModelMapper();
@@ -99,13 +99,13 @@ public class AnimalController {
         return new ResponseEntity<>(mapper.map(dto, AnimalResponse.class), HttpStatus.OK);
     }
 
-    @DeleteMapping(value="/{id}")
+    @DeleteMapping(value="/animal/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         as.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PatchMapping(value="/{id}")
+    @PatchMapping(value="/animal/{id}")
     public ResponseEntity<Void> defineAsDead(@PathVariable int id) {
         if(as.defineAsDead(id)) {
             return new ResponseEntity<>(HttpStatus.OK);
