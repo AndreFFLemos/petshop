@@ -3,7 +3,10 @@ package Person.person.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import Person.person.DTO.AnimalDto;
 import Person.person.DTO.PersonDto;
+import Person.person.http.Animalsfeignclient;
 import Person.person.model.Person;
 import Person.person.repository.PersonRepository;
 import org.modelmapper.ModelMapper;
@@ -14,6 +17,8 @@ import org.springframework.stereotype.Service;
 public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonRepository pr;
+    @Autowired
+    private Animalsfeignclient animalsfeignclient;
 
     @Override
     public PersonDto createPerson(PersonDto person) {
@@ -22,21 +27,22 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<PersonDto> findAll() {
-        List<Person> pessoas = pr.findAll();
+        List<Person> persons = pr.findAll();
 
-        return pessoas.stream()
-            .map(pessoa -> new ModelMapper().map(pessoa, PersonDto.class))
+        return persons.stream()
+            .map(person -> new ModelMapper().map(person, PersonDto.class))
             .collect(Collectors.toList());
     }
 
     @Override
     public Optional<PersonDto> findById(int id) {
-       Optional<Person> pessoa = pr.findById(id);
+       Optional<Person> person = pr.findById(id);
 
-       if(pessoa.isPresent()) {
+       if(person.isPresent()) {
+            PersonDto dto = new ModelMapper().map(person.get(), PersonDto.class);
 
-            PersonDto dto = new ModelMapper().map(pessoa.get(), PersonDto.class);
-
+            List <AnimalDto> animals= animalsfeignclient.findAnimals(id);
+            dto.setAnimals(animals);
             return Optional.of(dto);
        }
 

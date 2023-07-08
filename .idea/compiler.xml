@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
         <module name="animals" />
+        <module name="config" />
         <module name="gateway" />
         <module name="person" />
       </profile>
@@ -23,6 +24,7 @@
       <module name="Person" options="-parameters" />
       <module name="animais-ms" options="-parameters" />
       <module name="animals" options="-parameters" />
+      <module name="config" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="person" options="-parameters" />
     </option>

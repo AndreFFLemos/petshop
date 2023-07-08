@@ -59,7 +59,7 @@ public class AnimalController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
-    @GetMapping(value="/{owner}/list")
+    @GetMapping(value="/owners/{owner}/list")
     public ResponseEntity<List<AnimalResponse>> findByOwner(@PathVariable int owner) {
         List<AnimalDto> dtos = as.findByOwner(owner);
 

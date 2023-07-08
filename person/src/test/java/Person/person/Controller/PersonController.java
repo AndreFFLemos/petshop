@@ -5,8 +5,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import Person.person.DTO.PersonDto;
+import Person.person.http.Animalsfeignclient;
 import Person.person.model.Person;
 import Person.person.model.PersonResponse;
+import Person.person.model.PersonResponseDetail;
 import Person.person.service.PersonService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -59,14 +61,15 @@ public class PersonController {
 
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
-    
+
+    //this method will return a person and its animals
     @GetMapping(value="/person/{id}")
-    public ResponseEntity<PersonResponse> findById(@PathVariable int id) {
+    public ResponseEntity<PersonResponseDetail> findById(@PathVariable int id) {
         Optional<PersonDto> pessoa = ps.findById(id);
 
         if(pessoa.isPresent()) {
             return new ResponseEntity<>(
-                new ModelMapper().map(pessoa.get(), PersonResponse.class),
+                new ModelMapper().map(pessoa.get(), PersonResponseDetail.class),
                 HttpStatus.OK
             );
         }
