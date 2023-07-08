@@ -6,6 +6,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -16,11 +18,5 @@ public class GatewayApplication {
 	}
 
 
-	@Bean
-	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-		return builder.routes()
-				.route("manager_route", r -> r.path("/manager/**")
-						.uri("lb://manager"))
-				.build();
-	}
+
 }

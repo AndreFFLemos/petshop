@@ -36,7 +36,7 @@ public class PersonController {
     }
     
 
-    @PostMapping(value = "/person")
+    @PostMapping(value = "/person/new")
     public ResponseEntity<PersonResponse> create(@RequestBody @Valid PersonResponse person) {
         ModelMapper mapper = new ModelMapper();
         PersonDto dto = mapper.map(person, PersonDto.class);
@@ -44,7 +44,7 @@ public class PersonController {
         return new ResponseEntity<>(mapper.map(dto, PersonResponse.class), HttpStatus.CREATED);
     }
     
-    @GetMapping(value = "/persons")
+    @GetMapping(value = "/person/all")
     public ResponseEntity<List<PersonResponse>> findAll() {
         List<PersonDto> dtos = ps.findAll();
 

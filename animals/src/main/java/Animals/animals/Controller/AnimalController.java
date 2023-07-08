@@ -35,7 +35,7 @@ public class AnimalController {
         return String.format("Active service executing at port %s", port);
     }
 
-    @PostMapping(value = "/animal")
+    @PostMapping(value = "/animal/new")
     public ResponseEntity<AnimalResponse> createAnimal(@RequestBody @Valid AnimalInclusion Animal) {
         ModelMapper mapper = new ModelMapper();
         AnimalDto dto = mapper.map(Animal, AnimalDto.class);
@@ -43,7 +43,7 @@ public class AnimalController {
         return new ResponseEntity<>(mapper.map(dto, AnimalResponse.class), HttpStatus.CREATED);
     }
     
-    @GetMapping(value = "/animals")
+    @GetMapping(value = "/animal/all")
     public ResponseEntity<List<AnimalResponse>> findAll() {
         List<AnimalDto> dtos = as.findAll();
 
